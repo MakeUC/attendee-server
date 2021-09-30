@@ -8,14 +8,9 @@ import { environment } from './environment';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres',
+      type: `mongodb`,
       url: environment.database_config.url,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: environment.database_config.synchronize,
-      logging: environment.database_config.logging,
-      ssl: {
-        rejectUnauthorized: false,
-      },
+      entities: [Attendee],
     }),
     TypeOrmModule.forFeature([Attendee]),
   ],

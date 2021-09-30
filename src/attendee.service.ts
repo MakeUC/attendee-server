@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import csvToJson from 'csvjson-csv2json';
@@ -47,6 +47,7 @@ export class AttendeeService {
   }
 
   async checkInAttendee(email: string): Promise<Attendee> {
+    Logger.log(`Checking in attendee with email ${email}`);
     const attendee = await this.attendeeRepository.findOne({ email });
 
     if (!attendee) {
