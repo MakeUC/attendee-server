@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import csvToJson from 'csvjson-csv2json';
 import { Attendee } from './attendee.entity';
 import { AttendeeDto } from './Attendee.dto';
@@ -9,7 +9,7 @@ import { AttendeeDto } from './Attendee.dto';
 export class AttendeeService {
   constructor(
     @InjectRepository(Attendee)
-    private readonly attendeeRepository: Repository<Attendee>,
+    private readonly attendeeRepository: MongoRepository<Attendee>,
   ) {}
 
   async createAttendee(data: AttendeeDto): Promise<Attendee> {
@@ -47,18 +47,25 @@ export class AttendeeService {
   }
 
   async checkInAttendee(email: string): Promise<Attendee> {
-    Logger.log(`Checking in attendee with email ${email}`);
-    const attendee = await this.attendeeRepository.findOne({ email });
+    try {
+      Logger.log(`Checking in attendee with email ${email}`);
+      console.log(this.attendeeRepository);
+      const attendee = await this.attendeeRepository.findOne({ email });
+      console.log(attendee);
 
-    if (!attendee) {
-      throw new HttpException(`Invalid email`, HttpStatus.NOT_FOUND);
+      if (!attendee) {
+        throw new HttpException(`Invalid email`, HttpStatus.NOT_FOUND);
+      }
+
+      if (attendee.checkedIn) {
+        throw new HttpException(`Already checked in`, HttpStatus.FORBIDDEN);
+      }
+
+      attendee.checkedIn = true;
+      return this.attendeeRepository.save(attendee);
+    } catch (err) {
+      console.error(err);
+      throw err;
     }
-
-    if (attendee.checkedIn) {
-      throw new HttpException(`Already checked in`, HttpStatus.FORBIDDEN);
-    }
-
-    attendee.checkedIn = true;
-    return this.attendeeRepository.save(attendee);
   }
 }

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, ObjectIdColumn, ObjectID } from 'typeorm';
 import { IsIn, IsBoolean, IsString, IsEmail } from 'class-validator';
 
 export type AttendeeRole = 'SPONSOR' | 'MENTOR' | 'JUDGE' | 'HACKER';
@@ -10,10 +10,10 @@ export const ATTENDEE_ROLES: AttendeeRole[] = [
   'HACKER',
 ];
 
-@Entity()
+@Entity({ name: `attendee` })
 export class Attendee {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @ObjectIdColumn()
+  id: ObjectID;
 
   @IsString()
   @IsEmail()
