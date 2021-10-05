@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { StatusController } from './status.controller';
 import { AttendeeController } from './attendee.controller';
 import { Attendee } from './attendee.entity';
 import { AttendeeService } from './attendee.service';
@@ -14,7 +15,7 @@ import { environment } from './environment';
     }),
     TypeOrmModule.forFeature([Attendee]),
   ],
-  controllers: [AttendeeController],
+  controllers: [StatusController, AttendeeController],
   providers: [AttendeeService],
 })
 export class AppModule {}
