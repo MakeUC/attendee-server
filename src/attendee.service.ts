@@ -4,7 +4,6 @@ import { MongoRepository } from 'typeorm';
 import csvToJson from 'csvjson-csv2json';
 import { Attendee } from './attendee.entity';
 import { AttendeeDto } from './Attendee.dto';
-import { validateOrReject } from 'class-validator';
 
 @Injectable()
 export class AttendeeService {
@@ -53,7 +52,6 @@ export class AttendeeService {
     const { email, discordId } = dto;
     try {
       Logger.log(`Checking in attendee with email ${email}`);
-      console.log(this.attendeeRepository);
       const attendee = await this.attendeeRepository.findOne({ email });
 
       if (!attendee) {
@@ -66,8 +64,6 @@ export class AttendeeService {
 
       attendee.checkedIn = true;
       attendee.discordId = discordId;
-
-      await validateOrReject(attendee);
 
       return this.attendeeRepository.save(attendee);
     } catch (err) {

@@ -31,7 +31,7 @@ export class Attendee {
 
   @IsBoolean()
   @Column({ default: false })
-  isMinor: boolean;
+  isMinor?: boolean;
 
   @IsBoolean()
   @Column({ default: false })

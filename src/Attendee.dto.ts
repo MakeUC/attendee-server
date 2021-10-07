@@ -4,6 +4,6 @@ export class AttendeeDto {
   name: string;
   email: string;
   role: AttendeeRole;
-  isMinor: boolean;
+  isMinor?: boolean;
   discordId?: string;
 }
