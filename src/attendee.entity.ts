@@ -36,4 +36,8 @@ export class Attendee {
   @IsBoolean()
   @Column({ default: false })
   checkedIn: boolean;
+
+  @IsString()
+  @Column({ nullable: true })
+  discordId: string;
 }

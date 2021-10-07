@@ -4,6 +4,7 @@ import { MongoRepository } from 'typeorm';
 import csvToJson from 'csvjson-csv2json';
 import { Attendee } from './attendee.entity';
 import { AttendeeDto } from './Attendee.dto';
+import { validateOrReject } from 'class-validator';
 
 @Injectable()
 export class AttendeeService {
@@ -46,12 +47,14 @@ export class AttendeeService {
     return this.attendeeRepository.save(attendees);
   }
 
-  async checkInAttendee(email: string): Promise<Attendee> {
+  async checkInAttendee(
+    dto: Pick<AttendeeDto, 'email' | 'discordId'>,
+  ): Promise<Attendee> {
+    const { email, discordId } = dto;
     try {
       Logger.log(`Checking in attendee with email ${email}`);
       console.log(this.attendeeRepository);
       const attendee = await this.attendeeRepository.findOne({ email });
-      console.log(attendee);
 
       if (!attendee) {
         throw new HttpException(`Invalid email`, HttpStatus.NOT_FOUND);
@@ -62,6 +65,10 @@ export class AttendeeService {
       }
 
       attendee.checkedIn = true;
+      attendee.discordId = discordId;
+
+      await validateOrReject(attendee);
+
       return this.attendeeRepository.save(attendee);
     } catch (err) {
       console.error(err);

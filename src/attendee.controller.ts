@@ -15,8 +15,10 @@ export class AttendeeController {
   constructor(private readonly adminService: AttendeeService) {}
 
   @Post(`checkin`)
-  checkInAttendee(@Body() data: { email: string }): Promise<Attendee> {
-    return this.adminService.checkInAttendee(data.email);
+  checkInAttendee(
+    @Body() data: Pick<AttendeeDto, 'email' | 'discordId'>,
+  ): Promise<Attendee> {
+    return this.adminService.checkInAttendee(data);
   }
 
   @Post()
