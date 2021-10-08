@@ -58,12 +58,17 @@ export class AttendeeService {
         throw new HttpException(`Invalid email`, HttpStatus.NOT_FOUND);
       }
 
+      if (!attendee.isVerified) {
+        throw new HttpException('Attendee is not verified', HttpStatus.BAD_REQUEST);
+      }
+
       if (attendee.checkedIn) {
         throw new HttpException(`Already checked in`, HttpStatus.FORBIDDEN);
       }
 
       attendee.checkedIn = true;
       attendee.discordId = discordId;
+      attendee.checkedInAt = new Date();
 
       return this.attendeeRepository.save(attendee);
     } catch (err) {

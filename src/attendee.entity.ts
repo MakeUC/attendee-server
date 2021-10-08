@@ -10,32 +10,78 @@ export const ATTENDEE_ROLES: AttendeeRole[] = [
   'HACKER',
 ];
 
-@Entity({ name: `attendee` })
+@Entity({ name: `registrant` })
 export class Attendee {
-  @ObjectIdColumn()
+  @IsBoolean()
+  @Column({ default: false })
+  checkedIn: boolean;@ObjectIdColumn()
   id: ObjectID;
 
-  @IsString()
-  @IsEmail()
+  @Column()
+  @IsDefined()
+  fullName: string;
+
   @Column({ unique: true })
+  @IsDefined()
+  @IsEmail()
   email: string;
 
-  @IsString()
   @Column()
-  name: string;
+  @IsDefined()
+  phone: string;
+  
+  @Column()
+  @IsDefined()
+  school: string;
+  
+  @Column()
+  @IsDefined()
+  country: string;
 
-  @IsString()
-  @IsIn(ATTENDEE_ROLES)
-  @Column({ enum: ATTENDEE_ROLES })
-  role: AttendeeRole;
+  @Column()
+  @IsDefined()
+  degree: string;
 
-  @IsBoolean()
-  @Column({ default: false })
-  isMinor?: boolean;
+  @Column()
+  @IsDefined()
+  major: string;
 
-  @IsBoolean()
-  @Column({ default: false })
-  checkedIn: boolean;
+  @Column()
+  @IsDefined()
+  graduation: number;
+
+  @Column()
+  @IsDefined()
+  hackathonsAttended: string;
+
+  @Column()
+  resumeUrl: string;
+
+  @Column()
+  @IsDefined()
+  ethnicity: string;
+
+  @Column()
+  @IsDefined()
+  gender: string;
+
+  @Column()
+  questions: string;
+
+  @Column()
+  isVerified: boolean | null
+
+  @Column()
+  registeredAt: Date
+
+  @Column()
+  verifiedAt: Date
+
+  @Column()
+  isCheckedIn: boolean
+
+  @Column()
+  checkedInAt: Date
 
   @IsString()
   @Column({ nullable: true })
