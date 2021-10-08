@@ -1,5 +1,5 @@
 import { Entity, Column, ObjectIdColumn, ObjectID } from 'typeorm';
-import { IsIn, IsBoolean, IsString, IsEmail } from 'class-validator';
+import { IsIn, IsBoolean, IsString, IsEmail, IsDefined } from 'class-validator';
 
 export type AttendeeRole = 'SPONSOR' | 'MENTOR' | 'JUDGE' | 'HACKER';
 
@@ -12,9 +12,7 @@ export const ATTENDEE_ROLES: AttendeeRole[] = [
 
 @Entity({ name: `registrant` })
 export class Attendee {
-  @IsBoolean()
-  @Column({ default: false })
-  checkedIn: boolean;@ObjectIdColumn()
+  @ObjectIdColumn()
   id: ObjectID;
 
   @Column()

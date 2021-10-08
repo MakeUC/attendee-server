@@ -62,11 +62,11 @@ export class AttendeeService {
         throw new HttpException('Attendee is not verified', HttpStatus.BAD_REQUEST);
       }
 
-      if (attendee.checkedIn) {
+      if (attendee.isCheckedIn) {
         throw new HttpException(`Already checked in`, HttpStatus.FORBIDDEN);
       }
 
-      attendee.checkedIn = true;
+      attendee.isCheckedIn = true;
       attendee.discordId = discordId;
       attendee.checkedInAt = new Date();
 
