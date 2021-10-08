@@ -14,6 +14,7 @@ export class AttendeeDto {
   readonly gender: string
   readonly isVerified: boolean
   readonly questions?: string 
+  role: AttendeeRole
   isCheckedIn: boolean
   checkedInAt: Date
   discordId?: string

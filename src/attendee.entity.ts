@@ -84,4 +84,9 @@ export class Attendee {
   @IsString()
   @Column({ nullable: true })
   discordId: string;
+
+  @IsString()
+  @IsIn(ATTENDEE_ROLES)
+  @Column({ enum: ATTENDEE_ROLES })
+  role: AttendeeRole;
 }
