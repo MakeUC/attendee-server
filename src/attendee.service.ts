@@ -55,14 +55,17 @@ export class AttendeeService {
       const attendee = await this.attendeeRepository.findOne({ email });
 
       if (!attendee) {
+        console.log("Attendee not found");
         throw new HttpException(`Invalid email`, HttpStatus.NOT_FOUND);
       }
 
       if (!attendee.isVerified) {
+        console.log("Attendee not verified");
         throw new HttpException('Attendee is not verified', HttpStatus.BAD_REQUEST);
       }
 
       if (attendee.isCheckedIn) {
+        console.log("Attendee already checked in");
         throw new HttpException(`Already checked in`, HttpStatus.FORBIDDEN);
       }
 
@@ -70,6 +73,7 @@ export class AttendeeService {
       attendee.discordId = discordId;
       attendee.checkedInAt = new Date();
 
+      console.log("Attendee checked in");
       return this.attendeeRepository.save(attendee);
     } catch (err) {
       console.error(err);
